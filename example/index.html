@@ -1,38 +1,37 @@
-# iam-client
-client wrapper for iam service [open-iam](https://github.com/SmarterServices/IAM).
- 
+<!DOCTYPE html>
+<html>
+<head>
 
-## Installation via Bower
-The easiest way to install the iam-client is:
-```
-bower install iam-client --save
-```
-
-Declare dependency:
-
-```
-App = angular.module('app', ['blocks.iam']);
-```
-
-Inject the iamService to the function where the iam is going to be performed.
-Here iamService has been injected to the mainCtrl function which is a controller
-belonging to a module that has declared 'blocks.iam' as a dependency
-
-```
-mainCtrl.$inject = ['iamService'];
-```
-
-iamService has 3 methods:
-
-1) processIamData: This function takes a iam json data and processes it to do
-auhorization on subsequent step.
-
-2) authorize: This function determines if an action can be invoked for the resource
-on discussion. The third argument is the processedIamData. This function returns
-a boolean result.
+    <title>Sample Application</title>
 
 
-```
+</head>
+<body>
+
+<br />
+<div ng-app="sample" ng-controller="mainCtrl" class="container">
+    <h3>{{title}}</h3>
+
+</div>
+
+
+<script src="../bower_components/angular/angular.js"></script>
+
+
+<script src="../lib/iam/iam.js"></script>
+
+<script src="../src/blocks.iam.module.js"></script>
+<script src="../src/iamService.js"></script>
+
+<script>
+    angular
+            .module('sample',
+            ['blocks.iam'
+            ])
+            .controller('mainCtrl', function($scope, iamService) {
+
+                $scope.title = 'IAM client example usage';
+
                 var iamData = {
                     "Statement": [
                         {
@@ -57,11 +56,16 @@ a boolean result.
                     ]
                 };
 
-                var processedData = iamService.processIamData(iamData);
-                                
                 var resource = 'ssrn:ss:iam:::account/100/assestmentgroup/2/customquestions';
                 var action = 'CanRead';
 
-                var result = iamService.authorize(resource, action,processedData);
-```
+                var processedData = iamService.processIamData(iamData);
 
+                var result = iamService.authorize(resource, action, processedData);
+                console.log(result);
+
+            });
+</script>
+
+</body>
+</html>

@@ -1,10 +1,10 @@
 {
   "name": "iam-client",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": [
-        "lib/iam/iam.js",
-        "src/blocks.iam.module.js",
-        "src/iamService.js"
+    "lib/iam/iam.js",
+    "src/blocks.iam.module.js",
+    "src/iamService.js"
   ],
   "homepage": "",
   "license": "MIT",
@@ -15,9 +15,7 @@
     "test",
     "tests"
   ],
-  "devDependencies": {
-
-  },
+  "devDependencies": {},
   "dependencies": {
     "angular": "~1.4"
   }
