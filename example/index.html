@@ -16,6 +16,7 @@
 
 
 <script src="../bower_components/angular/angular.js"></script>
+<script src="../bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
 
 
 <script src="../lib/iam/iam.js"></script>
@@ -25,44 +26,39 @@
 
 <script>
     angular
-            .module('sample',
-            ['blocks.iam'
-            ])
+            .module('sample', ['blocks.iam'])
             .controller('mainCtrl', function($scope, iamService) {
 
                 $scope.title = 'IAM client example usage';
 
                 var iamData = {
-                    "Statement": [
-                        {
-                            "Effect": "Allow",
-                            "Action": ["CanRead"],
-                            "Resource": [
-                                "ssrn:ss:iam:::account/100/assestmentgroup/*/customquestions"
-                            ]
-                        },
-                        {
-                            "Effect": "Allow",
-                            "Action": ["CanUpdate","CanDelete","CanCreate"],
-                            "Resource": "ssrn:ss:iam:::account/100/assestmentgroup/1/customquestions"
-                        },
-                        {
-                            "Effect": "Deny",
-                            "Action": ["CanUpdate"],
-                            "Resource": [
-                                "ssrn:ss:iam:::account/100/assestmentgroup/2/customquestions"
-                            ]
-                        }
-                    ]
-                };
+                    "payload":{},
+                    "iam":{
+                        "Statement": [
+                            {
+                                "Effect": "Allow",
+                                "Action": ["sm:*"],
+                                "Resource": [
+                                    "ssrn:ss:sm::578:*"
+                                ]
+                            },
+                            {
+                                "Effect": "Deny",
+                                "Action": ["sm:DeleteUser"],
+                                "Resource": [
+                                    "ssrn:ss:sm::578:user/8539699"
+                                ]
+                            }
+                        ]
+                    }
+                }
 
-                var resource = 'ssrn:ss:iam:::account/100/assestmentgroup/2/customquestions';
-                var action = 'CanRead';
+                var resource = 'ssrn:ss:iam:::account/578/user/8539699';
+                var action = 'sm:DeleteUser';
 
-                var processedData = iamService.processIamData(iamData);
+                iamService.processIamData(iamData);
 
-                var result = iamService.authorize(resource, action, processedData);
-                console.log(result);
+                var result = iamService.authorize(resource, action);
 
             });
 </script>

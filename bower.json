@@ -1,6 +1,6 @@
 {
   "name": "iam-client",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": [
     "lib/iam/iam.js",
     "src/blocks.iam.module.js",
@@ -17,6 +17,7 @@
   ],
   "devDependencies": {},
   "dependencies": {
-    "angular": "~1.4"
+    "angular": "~1.4",
+    "angular-local-storage": "~0.2.3"
   }
 }

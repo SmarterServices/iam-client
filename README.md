@@ -25,43 +25,41 @@ mainCtrl.$inject = ['iamService'];
 iamService has 3 methods:
 
 1) processIamData: This function takes a iam json data and processes it to do
-auhorization on subsequent step.
+authorization on subsequent step.
 
 2) authorize: This function determines if an action can be invoked for the resource
-on discussion. The third argument is the processedIamData. This function returns
-a boolean result.
+on discussion. This function returns a boolean result.
 
 
 ```
-                var iamData = {
-                    "Statement": [
-                        {
-                            "Effect": "Allow",
-                            "Action": ["CanRead"],
-                            "Resource": [
-                                "ssrn:ss:iam:::account/100/assestmentgroup/*/customquestions"
-                            ]
-                        },
-                        {
-                            "Effect": "Allow",
-                            "Action": ["CanUpdate","CanDelete","CanCreate"],
-                            "Resource": "ssrn:ss:iam:::account/100/assestmentgroup/1/customquestions"
-                        },
-                        {
-                            "Effect": "Deny",
-                            "Action": ["CanUpdate"],
-                            "Resource": [
-                                "ssrn:ss:iam:::account/100/assestmentgroup/2/customquestions"
-                            ]
-                        }
-                    ]
-                };
+var iamData = {
+    "payload":{},
+    "iam":{
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Action": ["sm:*"],
+                "Resource": [
+                    "ssrn:ss:sm::578:*"
+                ]
+            },
+            {
+                "Effect": "Deny",
+                "Action": ["sm:DeleteUser"],
+                "Resource": [
+                    "ssrn:ss:sm::578:user/8539699"
+                ]
+            }
+        ]
+    }
+}
 
-                var processedData = iamService.processIamData(iamData);
-                                
-                var resource = 'ssrn:ss:iam:::account/100/assestmentgroup/2/customquestions';
-                var action = 'CanRead';
+var resource = 'ssrn:ss:iam:::account/578/user/8539699';
+var action = 'sm:DeleteUser';
 
-                var result = iamService.authorize(resource, action,processedData);
+iamService.processIamData(iamData);
+
+var result = iamService.authorize(resource, action);
+
 ```
 

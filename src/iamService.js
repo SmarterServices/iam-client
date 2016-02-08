@@ -5,7 +5,9 @@
         .service('iamService', iamService);
 
 
-    function iamService() {
+    iamService.$inject = ['localStorageService'];
+
+    function iamService(localStorageService) {
 
         var self = this;
         self.processIamData = processIamData;
@@ -13,16 +15,23 @@
         self.getActionCriteria = getActionCriteria;
 
 
+        var processedIamKey = 'processedIam';
+
         function processIamData(iamData) {
-            return iamModule.processIamData(iamData);
+            var processedIamData = iamModule.processIamData(iamData);
+            localStorageService.set(processedIamKey, processedIamData);
         }
 
-        function authorize(resource, action, processedIam) {
-            return iamModule.authorize(resource, action, processedIam);
+        function authorize(resource, action ) {
+            return iamModule.authorize(resource, action, getProcessedIamData());
         }
 
         function getActionCriteria(action, processedIam) {
-            return iamModule.getActionCriteria(action, processedIam);
+            return iamModule.getActionCriteria(action, processedIam, getProcessedIamData());
+        }
+
+        function getProcessedIamData() {
+            return localStorageService.get(processedIamKey).iam;
         }
 
     }
